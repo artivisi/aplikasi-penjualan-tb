@@ -20,7 +20,7 @@ public interface AppService {
     
     void hapusBarang(Barang b);
     
-//    Page<Barang> cariSemuaBarang(Pageable p);
+    Page<Barang> cariSemuaBarang(Pageable p);
     
     Barang cariBarangById(String id);
     
