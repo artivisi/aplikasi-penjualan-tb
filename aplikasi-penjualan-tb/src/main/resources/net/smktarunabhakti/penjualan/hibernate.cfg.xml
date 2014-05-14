@@ -8,7 +8,7 @@
             true
         </property>
         <property name="hibernate.hbm2ddl.auto">
-            create
+            update
         </property>
         <mapping class="net.smktarunabhakti.penjualan.domain.Barang"/>
         <mapping class="net.smktarunabhakti.penjualan.domain.Penjualan"/>
