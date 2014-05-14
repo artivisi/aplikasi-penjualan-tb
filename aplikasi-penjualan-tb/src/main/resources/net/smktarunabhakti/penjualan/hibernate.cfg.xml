@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.show_sql">
+            true
+        </property>
+        <property name="hibernate.format_sql">
+            true
+        </property>
+        <property name="hibernate.hbm2ddl.auto">
+            create
+        </property>
+        <mapping class="net.smktarunabhakti.penjualan.domain.Barang"/>
+        <mapping class="net.smktarunabhakti.penjualan.domain.Penjualan"/>
+        <mapping class="net.smktarunabhakti.penjualan.domain.PenjualanDetail"/>
+    </session-factory>
+</hibernate-configuration>
