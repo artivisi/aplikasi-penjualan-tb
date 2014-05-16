@@ -4,13 +4,63 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:tx="http://www.springframework.org/schema/tx"
-
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
-		  http://www.springframework.org/schema/beans/spring-beans.xsd
-          http://www.springframework.org/schema/context 
-          http://www.springframework.org/schema/context/spring-context.xsd
-          http://www.springframework.org/schema/tx 
-          http://www.springframework.org/schema/tx/spring-tx.xsd
-">
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx 
+            http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springframework.org/schema/data/jpa 
+            http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
+    <context:property-placeholder location="classpath*:jdbc.properties"/>
+
+    <context:component-scan base-package="net.smktarunabhakti.penjualan"/>
+    <jpa:repositories base-package="net.smktarunabhakti.penjualan.dao"/>
+    <context:annotation-config />
+    <tx:annotation-driven />
+	
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close" p:driverClassName="${jdbc.driver}" 
+          p:url="${jdbc.url}" p:username="${jdbc.username}"
+          p:password="${jdbc.password}" p:maxWait="40000" p:maxActive="80"
+          p:maxIdle="20" />
+
+    <bean class="org.springframework.orm.jpa.JpaTransactionManager"
+          id="transactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+        </property>
+    </bean>
+	
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" 
+                  value="net.smktarunabhakti.penjualan.domain"/>
+        <property name="jpaVendorAdapter">
+            <bean class=
+				"org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform" value="${hibernate.dialect}"/>
+                <property name="showSql" value="true"/>
+                <property name="generateDdl" value="false"/>
+            </bean>
+        </property>
+		
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.format_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+	
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:configLocation="/net/smktarunabhakti/penjualan/hibernate.cfg.xml">
+    </bean>
+    
+    
 </beans>
