@@ -41,8 +41,7 @@
         <property name="packagesToScan" 
                   value="net.smktarunabhakti.penjualan.domain"/>
         <property name="jpaVendorAdapter">
-            <bean class=
-				"org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="databasePlatform" value="${hibernate.dialect}"/>
                 <property name="showSql" value="true"/>
                 <property name="generateDdl" value="false"/>
