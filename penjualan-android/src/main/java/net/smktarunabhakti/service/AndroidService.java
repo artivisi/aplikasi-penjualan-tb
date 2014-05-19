@@ -13,11 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by jimmy on 19/05/14.
+ * Created on 19/05/14.
+ * by Jimmy Rengga [@jimmyrengga]
  */
 public class AndroidService {
 
-    // fill BASE_URL with your own web server address
+    // Ganti BASE_URL dengan alamat web server anda sendiri
     private static final String BASE_URI = "http://192.168.1.217:10000/";
     RestTemplate restTemplate = new RestTemplate();
 
@@ -31,7 +32,7 @@ public class AndroidService {
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-        ResponseEntity<Barang> entityBarang = restTemplate.getForEntity(url, Barang.class);
+        ResponseEntity<Barang[]> entityBarang = restTemplate.getForEntity(url, Barang[].class);
 
         return new ArrayList<Barang>(Arrays.asList(entityBarang.getBody()));
     }
