@@ -20,7 +20,6 @@ import java.util.Map;
 public class MainAndroidActivity extends Activity {
 
     private static String TAG = "penjualan-android";
-    List<Map<String, String>> barangLists = new ArrayList<Map<String,String>>();
     private AndroidService appService = new AndroidService();
     ProgressDialog progressDialog;
 
@@ -37,11 +36,6 @@ public class MainAndroidActivity extends Activity {
         setContentView(R.layout.main);
 
         new GetDataBarang().execute();
-
-        ListView listView = (ListView) findViewById(R.id.listView);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this, barangLists, android.R.layout.simple_list_item_1,
-                new String[] {"barang"}, new int[] {android.R.id.text1});
-        listView.setAdapter(simpleAdapter);
     }
 
     // All Url
@@ -66,7 +60,9 @@ public class MainAndroidActivity extends Activity {
         @Override
         protected void onPostExecute(List<Barang> barangs) {
             dismissProgressDialog();
-            initData(barangs);
+            Log.v(TAG, "size : " + barangs.size());
+            ListView listView = (ListView) findViewById(R.id.listView);
+            listView.setAdapter(new BarangAdapter(barangs, MainAndroidActivity.this));
         }
     }
 
@@ -91,23 +87,5 @@ public class MainAndroidActivity extends Activity {
         }
     }
 
-    private void initData(List<Barang> barangs) {
-        //Get data barang and populate to barangLists
-        if(barangs.size() < 0 || barangs == null) {
-            return;
-        }
-
-        for (Barang barang : barangs) {
-            barangLists.add(createBarang("barang", barang.getNamaBarang()));
-        }
-
-    }
-
-    private HashMap<String, String> createBarang(String key, String name) {
-        HashMap<String, String> barang = new HashMap<String, String>();
-        barang.put(key, name);
-
-        return barang;
-    }
 }
 
