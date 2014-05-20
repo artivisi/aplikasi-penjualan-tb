@@ -62,4 +62,5 @@ public class BarangAdapter extends BaseAdapter {
 
         return view;
     }
+
 }

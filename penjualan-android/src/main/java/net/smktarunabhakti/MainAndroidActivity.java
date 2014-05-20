@@ -6,16 +6,16 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import net.smktarunabhakti.domain.Barang;
 import net.smktarunabhakti.service.AndroidService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainAndroidActivity extends Activity {
 
@@ -58,11 +58,22 @@ public class MainAndroidActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(List<Barang> barangs) {
+        protected void onPostExecute(final List<Barang> barangs) {
             dismissProgressDialog();
             Log.v(TAG, "size : " + barangs.size());
             ListView listView = (ListView) findViewById(R.id.listView);
             listView.setAdapter(new BarangAdapter(barangs, MainAndroidActivity.this));
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                public void onItemClick(AdapterView<?> parentAdapter, View view, int position,
+                                        long id) {
+
+                    Log.v("test", "on click");
+                    // We know the View is a TextView so we can cast it
+                    Log.v("clicked on : ", "barang : " + barangs.get(position).getNamaBarang());
+
+                }
+            });
         }
     }
 
