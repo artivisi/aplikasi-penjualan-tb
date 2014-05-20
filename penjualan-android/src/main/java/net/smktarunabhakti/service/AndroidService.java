@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.xml.ws.Response;
+
 /**
  * Created on 19/05/14.
  * by Jimmy Rengga [@jimmyrengga]
@@ -35,6 +37,15 @@ public class AndroidService {
         ResponseEntity<Barang[]> entityBarang = restTemplate.getForEntity(url, Barang[].class);
 
         return new ArrayList<Barang>(Arrays.asList(entityBarang.getBody()));
+    }
+
+    public void deleteBarang(String id) {
+        String url = BASE_URI + "barang/" + id;
+
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+        restTemplate.delete(url);
     }
 
 }
