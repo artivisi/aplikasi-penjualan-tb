@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,11 @@ public class MainAndroidActivity extends Activity {
         setContentView(R.layout.main);
 
         new GetDataBarang().execute();
+    }
+
+    public void tambahBarang(View view) {
+        Intent barangActivity = new Intent(view.getContext(), BarangActivity.class);
+        startActivity(barangActivity);
     }
 
     // All Url
@@ -118,23 +124,24 @@ public class MainAndroidActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        final Barang map =  (Barang) barangAdapter.getItem(info.position);
+        final Barang mapBarang =  (Barang) barangAdapter.getItem(info.position);
         // Implements our logic
         switch (itemId) {
             case 1 :
-                Log.v("tag", ""+info.position);
+
+                Intent updtBarangActivity = new Intent(this.getApplicationContext(), UpdateBarangActivity.class);
+                updtBarangActivity.putExtra("ID_BARANG", mapBarang.getId());
+                startActivity(updtBarangActivity);
+
                 return true;
             case 2 :
-
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 Log.v("btn", "yes");
-
-                                new DeleteDataBarang().execute(map.getId());
-
+                                new DeleteDataBarang().execute(mapBarang.getId());
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -147,7 +154,6 @@ public class MainAndroidActivity extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
-
                 return true;
             default :
                 Log.v("tag", "default");
@@ -174,10 +180,9 @@ public class MainAndroidActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+            protected void onPostExecute(Void aVoid) {
             dismissProgressDialog();
             new GetDataBarang().execute();
         }
     }
 }
-

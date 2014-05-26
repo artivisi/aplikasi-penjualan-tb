@@ -8,6 +8,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,8 +21,7 @@ import javax.xml.ws.Response;
  */
 public class AndroidService {
 
-    // Ganti BASE_URL dengan alamat web server anda sendiri
-    private static final String BASE_URI = "http://192.168.1.217:10000/";
+    private static final String BASE_URI = "http://192.168.1.22:10000/";
     RestTemplate restTemplate = new RestTemplate();
 
     public AndroidService() {
@@ -46,6 +46,33 @@ public class AndroidService {
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
         restTemplate.delete(url);
+    }
+
+    public String saveBarang(Barang barang) {
+        String url = BASE_URI + "barang";
+
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+        return restTemplate.postForObject(url, barang, String.class);
+    }
+
+    public Barang getBarangById(String idBarang) {
+        String url = BASE_URI + "barang/" + idBarang;
+
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+        return restTemplate.getForObject(url, Barang.class);
+    }
+
+    public void updateBarang(Barang barang) {
+        String url = BASE_URI + "barang/" + barang.getId();
+
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+        restTemplate.put(url, barang);
     }
 
 }
