@@ -116,7 +116,7 @@ public class MainAndroidActivity extends Activity {
         Barang map =  (Barang) barangAdapter.getItem(aInfo.position);
 
         menu.setHeaderTitle("Options for " + map.getNamaBarang());
-        menu.add(1, 1, 1, "Details");
+        menu.add(1, 1, 1, "Edit");
         menu.add(1, 2, 2, "Delete");
     }
 
